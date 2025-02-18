@@ -45,7 +45,7 @@ const Cardapio = () => {
       </nav>
 
       <div className="flex">
-        <aside className="bg-black max-w-[100px] h-screen">
+        <aside className="bg-black max-w-[100px]">
           <div>
             <p className="text-base text-center text-white pt-2">Categorias</p>
             <div className="pt-5">
@@ -90,36 +90,73 @@ const Cardapio = () => {
               className="w-full h-[400px] rounded-sm"
             />
           </div>
-          <p className="text-white py-2 px-6">Massas</p>
-          <div className="flex items-center justify-around text-white text-center">
-            <div className="flex flex-col ">
-              <Image
-                src={imgOfertas}
-                alt="Imagem das promocoes"
-                className="w-[250px] h-[200px] rounded-sm"
-              />
-              <div className="bg-black w-full">
-                <p>Promoção 1</p>
+          <div className="flex flex-col items-center text-white text-center">
+            <p className="text-white py-2">Massas</p>
+            <div className="flex gap-4">
+              <div className="flex flex-col">
+                <Image
+                  src={imgOfertas}
+                  alt="Imagem das promocoes"
+                  className="w-[250px] h-[200px] rounded-sm"
+                />
+                <div className="bg-black w-full">
+                  <p>Promoção 1</p>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <Image
+                  src={imgOfertas}
+                  alt="Imagem das promocoes"
+                  className="w-[250px] h-[200px] rounded-sm"
+                />
+                <div className="bg-black w-full">
+                  <p>Promoção 2</p>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <Image
+                  src={imgOfertas}
+                  alt="Imagem das promocoes"
+                  className="w-[250px] h-[200px] rounded-sm"
+                />
+                <div className="bg-black w-full">
+                  <p>Promoção 3</p>
+                </div>
               </div>
             </div>
-            <div className="flex flex-col">
-              <Image
-                src={imgOfertas}
-                alt="Imagem das promocoes"
-                className="w-[250px] h-[200px] rounded-sm"
-              />
-              <div className="bg-black w-full">
-                <p>Promoção 2</p>
+          </div>
+          <div className="flex flex-col items-center mb-10 text-white text-center">
+            <p className="text-white py-2">Drinks</p>
+            <div className="flex gap-4">
+              <div className="flex flex-col">
+                <Image
+                  src={imgOfertas}
+                  alt="Imagem das promocoes"
+                  className="w-[250px] h-[200px] rounded-sm"
+                />
+                <div className="bg-black w-full">
+                  <p>Promoção 1</p>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col">
-              <Image
-                src={imgOfertas}
-                alt="Imagem das promocoes"
-                className="w-[250px] h-[200px] rounded-sm"
-              />
-              <div className="bg-black w-full">
-                <p>Promoção 3</p>
+              <div className="flex flex-col">
+                <Image
+                  src={imgOfertas}
+                  alt="Imagem das promocoes"
+                  className="w-[250px] h-[200px] rounded-sm"
+                />
+                <div className="bg-black w-full">
+                  <p>Promoção 2</p>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <Image
+                  src={imgOfertas}
+                  alt="Imagem das promocoes"
+                  className="w-[250px] h-[200px] rounded-sm"
+                />
+                <div className="bg-black w-full">
+                  <p>Promoção 3</p>
+                </div>
               </div>
             </div>
           </div>
