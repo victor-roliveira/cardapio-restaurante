@@ -16,10 +16,10 @@ export default function Home() {
         <h1 className="text-4xl">Cardápio Digital</h1>
         <p className="text-xl text-white/80">Escolha a mesa</p>
         <Select>
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger className="w-[200px] outline-none">
             <SelectValue placeholder="Selecione a mesa..." />
           </SelectTrigger>
-          <SelectContent className="bg-slate-900 text-white border-none outline-none">
+          <SelectContent className="bg-white border-none outline-none">
             <SelectGroup>
               <SelectLabel>Mesas</SelectLabel>
               <SelectItem value="1">Mesa 1</SelectItem>
