@@ -140,73 +140,64 @@ const Cardapio = () => {
           </div>
           <div className="flex flex-col items-center text-white text-center">
             <p className="text-white text-2xl font-semibold py-2">Massas</p>
-            <div className="flex gap-4">
-              <div className="flex flex-col">
-                <Image
-                  src={massa}
-                  alt="Imagem das promocoes"
-                  className="w-[250px] h-[200px] rounded-sm"
-                />
-                <div className="bg-black w-full">
-                  <p>Promoção 1</p>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <Image
-                  src={massa}
-                  alt="Imagem das promocoes"
-                  className="w-[250px] h-[200px] rounded-sm"
-                />
-                <div className="bg-black w-full">
-                  <p>Promoção 2</p>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <Image
-                  src={massa}
-                  alt="Imagem das promocoes"
-                  className="w-[250px] h-[200px] rounded-sm"
-                />
-                <div className="bg-black w-full">
-                  <p>Promoção 3</p>
-                </div>
-              </div>
-            </div>
+            <Carousel className="mx-15">
+              <CarouselContent>
+                {Array(3)
+                  .fill(null)
+                  .map((_, index) => (
+                    <CarouselItem key={index} className="basis-1/3">
+                      <Card className="w-[200px]">
+                        <CardContent className="w-full flex flex-col justify-center p-0">
+                          <Image
+                            src={massa}
+                            alt={`Imagem pizza ${index + 1}`}
+                            className="w-full rounded-t-lg"
+                          />
+                          <h2 className="p-1 text-lg font-semibold">
+                            Macarrão Bolonhesa
+                          </h2>
+                          <p className="text-sm p-1 text-gray-500">
+                            Ingredientes: massa fresca artesanal, molho pomodoro
+                            a bolonhesa
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+              </CarouselContent>
+              <CarouselPrevious className="text-black" />
+              <CarouselNext className="text-black" />
+            </Carousel>
           </div>
           <div className="flex flex-col items-center mb-10 text-white text-center">
             <p className="text-white text-2xl font-semibold py-2">Drinks</p>
-            <div className="flex gap-4">
-              <div className="flex flex-col">
-                <Image
-                  src={drink}
-                  alt="Imagem das promocoes"
-                  className="w-[250px] h-[200px] rounded-sm"
-                />
-                <div className="bg-black w-full">
-                  <p>Promoção 1</p>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <Image
-                  src={drink}
-                  alt="Imagem das promocoes"
-                  className="w-[250px] h-[200px] rounded-sm"
-                />
-                <div className="bg-black w-full">
-                  <p>Promoção 2</p>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <Image
-                  src={drink}
-                  alt="Imagem das promocoes"
-                  className="w-[250px] h-[200px] rounded-sm"
-                />
-                <div className="bg-black w-full">
-                  <p>Promoção 3</p>
-                </div>
-              </div>
-            </div>
+            <Carousel className="mx-15">
+              <CarouselContent>
+                {Array(3)
+                  .fill(null)
+                  .map((_, index) => (
+                    <CarouselItem key={index} className="basis-1/3">
+                      <Card className="w-[200px]">
+                        <CardContent className="w-full flex flex-col justify-center p-0">
+                          <Image
+                            src={drink}
+                            alt={`Imagem pizza ${index + 1}`}
+                            className="w-full h-[200px] rounded-t-lg"
+                          />
+                          <h2 className="p-1 text-lg font-semibold">
+                            Aperol Spritz
+                          </h2>
+                          <p className="text-sm p-1 text-gray-500">
+                            Ingredientes: Aperol, Água com gás, Gelo e Rodelas de laranja
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+              </CarouselContent>
+              <CarouselPrevious className="text-black" />
+              <CarouselNext className="text-black" />
+            </Carousel>
           </div>
         </section>
       </div>
