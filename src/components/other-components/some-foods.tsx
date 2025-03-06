@@ -1,17 +1,9 @@
 import Image from "next/image";
 import logoRestaurante from "../../app/assets/logo-restaurante.png";
-import pizza from "../../app/assets/pizza-image.png";
-import massa from "../../app/assets/macarrao-bacon.jpg";
-import drink from "../../app/assets/aperol-zcafe.jpg";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Card, CardContent } from "@/components/ui/card";
+import SomePizzas from "./some-pizzas";
+import SomeMasses from "./some-masses";
+import SomeDrinks from "./some-drinks";
 
 const SomeFoods = () => {
   return (
@@ -30,97 +22,16 @@ const SomeFoods = () => {
       <div className="flex flex-col items-center text-white text-center">
         <p className="text-white text-2xl font-semibold py-2">Pizzas</p>
         <div className="flex gap-4">
-          <Carousel className="mx-15">
-            <CarouselContent>
-              {Array(3)
-                .fill(null)
-                .map((_, index) => (
-                  <CarouselItem key={index} className="basis-1/3">
-                    <Card className="w-[200px]">
-                      <CardContent className="w-full flex flex-col justify-center p-0">
-                        <Image
-                          src={pizza}
-                          alt={`Imagem pizza ${index + 1}`}
-                          className="w-full rounded-t-lg"
-                        />
-                        <h2 className="p-1 text-lg font-semibold">
-                          Pizza Peperoni
-                        </h2>
-                        <p className="text-sm p-1 text-gray-500">
-                          Ingredientes: Mussarela, Molho pomodoro, Orégano,
-                          Peperoni
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>
-                ))}
-            </CarouselContent>
-            <CarouselPrevious className="text-black" />
-            <CarouselNext className="text-black" />
-          </Carousel>
+          <SomePizzas />
         </div>
       </div>
       <div className="flex flex-col items-center text-white text-center">
         <p className="text-white text-2xl font-semibold py-2">Massas</p>
-        <Carousel className="mx-15">
-          <CarouselContent>
-            {Array(3)
-              .fill(null)
-              .map((_, index) => (
-                <CarouselItem key={index} className="basis-1/3">
-                  <Card className="w-[200px]">
-                    <CardContent className="w-full flex flex-col justify-center p-0">
-                      <Image
-                        src={massa}
-                        alt={`Imagem pizza ${index + 1}`}
-                        className="w-full rounded-t-lg"
-                      />
-                      <h2 className="p-1 text-lg font-semibold">
-                        Macarrão Bolonhesa
-                      </h2>
-                      <p className="text-sm p-1 text-gray-500">
-                        Ingredientes: massa fresca artesanal, molho pomodoro a
-                        bolonhesa
-                      </p>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
-          </CarouselContent>
-          <CarouselPrevious className="text-black" />
-          <CarouselNext className="text-black" />
-        </Carousel>
+        <SomeMasses />
       </div>
       <div className="flex flex-col items-center mb-10 text-white text-center">
         <p className="text-white text-2xl font-semibold py-2">Drinks</p>
-        <Carousel className="mx-15">
-          <CarouselContent>
-            {Array(3)
-              .fill(null)
-              .map((_, index) => (
-                <CarouselItem key={index} className="basis-1/3">
-                  <Card className="w-[200px]">
-                    <CardContent className="w-full flex flex-col justify-center p-0">
-                      <Image
-                        src={drink}
-                        alt={`Imagem pizza ${index + 1}`}
-                        className="w-full h-[200px] rounded-t-lg"
-                      />
-                      <h2 className="p-1 text-lg font-semibold">
-                        Aperol Spritz
-                      </h2>
-                      <p className="text-sm p-1 text-gray-500">
-                        Ingredientes: Aperol, Água com gás, Gelo e Rodelas de
-                        laranja
-                      </p>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
-          </CarouselContent>
-          <CarouselPrevious className="text-black" />
-          <CarouselNext className="text-black" />
-        </Carousel>
+        <SomeDrinks />
       </div>
     </section>
   );
