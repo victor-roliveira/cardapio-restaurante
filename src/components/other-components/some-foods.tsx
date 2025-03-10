@@ -19,18 +19,18 @@ const SomeFoods = () => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col items-center text-white text-center">
-        <p className="text-white text-2xl font-semibold py-2">Pizzas</p>
+      <div className="flex flex-col items-center justify-center text-white text-center">
+        <p className="text-white text-2xl font-semibold py-2">Algumas das Pizzas</p>
         <div className="flex gap-4">
           <SomePizzas />
         </div>
       </div>
       <div className="flex flex-col items-center text-white text-center">
-        <p className="text-white text-2xl font-semibold py-2">Massas</p>
+        <p className="text-white text-2xl font-semibold py-2">Algumas das Massas</p>
         <SomeMasses />
       </div>
       <div className="flex flex-col items-center mb-10 text-white text-center">
-        <p className="text-white text-2xl font-semibold py-2">Drinks</p>
+        <p className="text-white text-2xl font-semibold py-2">Alguns Drinks</p>
         <SomeDrinks />
       </div>
     </section>

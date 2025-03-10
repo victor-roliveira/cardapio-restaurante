@@ -37,11 +37,11 @@ const SomeMasses = () => {
 
   return (
     <Carousel className="mx-15">
-      <CarouselContent>
-        {massas.map((produto) => (
-          <CarouselItem key={produto.id} className="basis-1/3">
-            <Card className="w-[200px]">
-              <CardContent className="w-full flex flex-col justify-center p-0">
+      <CarouselContent className="w-[900px]">
+        {massas.slice(0, 5).map((produto) => (
+          <CarouselItem key={produto.id} className="basis-auto">
+            <Card className="w-[200px] h-[300px] flex flex-col">
+              <CardContent className="w-full flex flex-col justify-between p-0 h-full">
                 <div className="w-[200px] h-[150px]">
                   <Image
                     src={produto.imagem}
@@ -51,8 +51,15 @@ const SomeMasses = () => {
                     height={200}
                   />
                 </div>
-                <h2 className="p-1 text-lg font-semibold">{produto.nome}</h2>
-                <p className="text-sm p-1 text-gray-500 font-bold">
+                <h2 className="p-1 text-lg font-semibold text-center">
+                  {produto.nome}
+                </h2>
+                <div className="flex-grow flex items-center justify-center">
+                  <p className="text-sm text-center text-gray-500">
+                    {produto.descricao}
+                  </p>
+                </div>
+                <p className="text-base p-1 font-bold text-center">
                   R$ {produto.preco.toFixed(2)}
                 </p>
               </CardContent>
