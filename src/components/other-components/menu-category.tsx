@@ -24,7 +24,7 @@ const MenuCategories = () => {
           </div>
           <div className="border-b-2">
             <Link
-              href="/entradas"
+              href="/pizzas"
               className="flex flex-col items-center justify-center text-white h-[100px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
             >
               <Image src={iconPizza} alt="Ícone pizza" width={30}/>

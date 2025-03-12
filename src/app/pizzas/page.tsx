@@ -1,18 +1,28 @@
 "use client";
 import MenuCategories from "@/components/other-components/menu-category";
 import Navbar from "@/components/other-components/navbar";
-
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import { api } from "@/lib/axios";
+import { Produto } from "@/lib/types/produto";
+
+import { useEffect, useState } from "react";
 
 import Image from "next/image";
 import iconCartAdd from "../assets/add-car.svg";
 
-import { useEffect, useState } from "react";
-import { Produto } from "@/lib/types/produto";
-import { api } from "@/lib/axios";
-
-const Entries = () => {
+const Pizzas = () => {
   const [produtos, setProdutos] = useState<Produto[] | null>([]);
 
   useEffect(() => {
@@ -28,8 +38,8 @@ const Entries = () => {
     fetchProdutos();
   }, []);
 
-  const entradas = produtos?.filter(
-    (produto) => produto.categoria.nome === "Entradas"
+  const pizzas = produtos?.filter(
+    (produto) => produto.categoria.nome === "Pizzas"
   );
   return (
     <>
@@ -38,9 +48,24 @@ const Entries = () => {
         <MenuCategories />
         <section className="bg-slate-950 w-full h-auto pb-10">
           <div className="p-10">
-            <h1 className="text-white text-3xl font-semibold">ENTRADAS</h1>
+            <div className="flex justify-between">
+              <h1 className="text-white text-3xl font-semibold">PIZZAS</h1>
+              <Select>
+                <SelectTrigger className="w-[250px] text-white border-2">
+                  <SelectValue placeholder="Selecione uma categoria..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Categorias</SelectLabel>
+                    <SelectItem value="Tradicionais">Tradicionais</SelectItem>
+                    <SelectItem value="Especiais">Especiais</SelectItem>
+                    <SelectItem value="Doces">Doces</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
             <div className="flex gap-5 flex-wrap">
-              {entradas?.map((produto) => (
+              {pizzas?.map((produto) => (
                 <Card
                   key={produto.id}
                   className="w-[300px] h-[400px] border-none bg-transparent text-white shadow-none hover:scale-110 transition-all"
@@ -82,4 +107,4 @@ const Entries = () => {
   );
 };
 
-export default Entries;
+export default Pizzas;
