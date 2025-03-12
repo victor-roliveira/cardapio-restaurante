@@ -67,8 +67,7 @@ const SomeMasses = () => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="text-black" />
-      <CarouselNext className="text-black" />
+
     </Carousel>
   );
 };

@@ -1,41 +1,62 @@
-import { Drumstick, Pizza, Shell, UtensilsCrossed, Wine } from "lucide-react";
-import { Button } from "../ui/button";
+import { Drumstick } from "lucide-react";
+import iconPizza from "../../app/assets/icon-pizza.svg";
+import iconMassa from "../../app/assets/icon-massas.svg";
+import iconPratos from "../../app/assets/icon-pratos.svg";
+import iconDrinks from "../../app/assets/icon-drink.svg";
+
+import Link from "next/link";
+import Image from "next/image";
 
 const MenuCategories = () => {
   return (
-    <aside className="bg-black max-w-[100px]">
+    <aside className="bg-black w-[100px]">
       <div>
         <p className="text-base text-center text-white pt-2">Categorias</p>
         <div className="pt-5">
           <div className="border-b-2 border-t-2">
-            <Button className="flex flex-col h-[100px] w-full bg-orange-400 rounded-none">
+            <Link
+              href="/entradas"
+              className="flex flex-col items-center justify-center text-white h-[100px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
+            >
               <Drumstick />
               Entradas
-            </Button>
+            </Link>
           </div>
           <div className="border-b-2">
-            <Button className="flex flex-col h-[100px] w-full bg-orange-400 rounded-none">
-              <Pizza />
+            <Link
+              href="/entradas"
+              className="flex flex-col items-center justify-center text-white h-[100px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
+            >
+              <Image src={iconPizza} alt="Ícone pizza" width={30}/>
               Pizzas
-            </Button>
+            </Link>
           </div>
           <div className="border-b-2">
-            <Button className="flex flex-col h-[100px] w-full bg-orange-400 rounded-none">
-              <Shell />
+            <Link
+              href="/entradas"
+              className="flex flex-col items-center justify-center text-white h-[100px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
+            >
+              <Image src={iconMassa} alt="Ícone massas" width={30}/>
               Massas
-            </Button>
+            </Link>
           </div>
           <div className="border-b-2">
-            <Button className="flex flex-col h-[100px] w-full bg-orange-400 rounded-none">
-              <UtensilsCrossed />
+            <Link
+              href="/entradas"
+              className="flex flex-col items-center justify-center text-white h-[100px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
+            >
+              <Image src={iconPratos} alt="Ícone pratos" width={30}/>
               Pratos
-            </Button>
+            </Link>
           </div>
           <div className="border-b-2">
-            <Button className="flex flex-col h-[100px] w-full bg-orange-400 rounded-none">
-              <Wine />
+            <Link
+              href="/entradas"
+              className="flex flex-col items-center justify-center text-white h-[100px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
+            >
+              <Image src={iconDrinks} alt="Ícone bebidas" width={30} />
               Bebidas
-            </Button>
+            </Link>
           </div>
         </div>
       </div>

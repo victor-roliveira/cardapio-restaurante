@@ -55,7 +55,9 @@ const SomePizzas = () => {
                   {produto.nome}
                 </h2>
                 <div className="flex-grow flex items-center justify-center">
-                  <p className="text-sm text-center text-gray-500">{produto.descricao}</p>
+                  <p className="text-sm text-center text-gray-500">
+                    {produto.descricao}
+                  </p>
                 </div>
                 <p className="text-base p-1 font-bold text-center">
                   R$ {produto.preco.toFixed(2)}
@@ -65,8 +67,7 @@ const SomePizzas = () => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="text-black" />
-      <CarouselNext className="text-black" />
+      
     </Carousel>
   );
 };
