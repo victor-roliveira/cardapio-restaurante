@@ -1,17 +1,31 @@
 "use client";
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import MenuCategories from "@/components/other-components/menu-category";
+import Navbar from "@/components/other-components/navbar";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Navbar from "@/components/other-components/navbar";
-import MenuCategories from "@/components/other-components/menu-category";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import Image from "next/image";
 import iconCartAdd from "../assets/add-car.svg";
+
+import { useEffect, useState } from "react";
 import { Produto } from "@/lib/types/produto";
 import { api } from "@/lib/axios";
 
-const Desserts = () => {
+const Entries = () => {
   const [produtos, setProdutos] = useState<Produto[] | null>([]);
-  const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
+  const [expandedDescriptions, setExpandedDescriptions] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   useEffect(() => {
     const fetchProdutos = async () => {
@@ -26,14 +40,16 @@ const Desserts = () => {
     fetchProdutos();
   }, []);
 
-  const sobremesas = produtos?.filter(
+  const toggleDescription = (id: string) => {
+    setExpandedDescriptions((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
+  const bebidas = produtos?.filter(
     (produto) => produto.categoria.nome === "Sobremesas"
   );
-
-  // Alterna entre descrição curta e completa
-  const toggleExpand = (id: string) => {
-    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
 
   return (
     <>
@@ -41,23 +57,22 @@ const Desserts = () => {
       <div className="flex">
         <MenuCategories />
         <section className="bg-slate-950 w-full h-auto pb-10">
-          <div className="pt-10 pl-10">
+          <div className="p-10">
             <h1 className="text-white text-3xl font-semibold">SOBREMESAS</h1>
-
             <div className="flex gap-5 flex-wrap">
-              {sobremesas?.map((produto) => {
-                const isExpanded = expanded[produto.id] || false;
-                const descricaoCurta =
-                  produto.descricao.length > 100
-                    ? `${produto.descricao.slice(0, 80)}...`
-                    : produto.descricao;
+              {bebidas?.map((produto) => {
+                const isExpanded = expandedDescriptions[produto.id];
+                const descricaoAbreviada =
+                  (produto.descricao || "").length > 100
+                    ? (produto.descricao || "").substring(0, 100) + "..."
+                    : produto.descricao || "Descrição não disponível";
 
                 return (
                   <Card
                     key={produto.id}
-                    className="w-[300px] h-[500px] border-none bg-transparent text-white shadow-none hover:scale-110 transition-all"
+                    className="w-[300px] h-auto border-none bg-transparent text-white shadow-none hover:scale-110 transition-all"
                   >
-                    <CardContent className="flex flex-col space-y-2 p-0 border-none pt-10 h-full">
+                    <CardContent className="space-y-2 p-0 border-none pt-10">
                       <Image
                         src={produto.imagem}
                         alt={`${produto.nome}`}
@@ -66,20 +81,22 @@ const Desserts = () => {
                         className="w-[500px] h-[200px] object-cover rounded"
                       />
                       <h2 className="text-2xl font-bold">{produto.nome}</h2>
-                      <div>
-                        <p
-                          className="text-sm text-white/80 cursor-pointer pr-2"
-                          onClick={() => toggleExpand(produto.id.toString())}
+                      <p className="text-sm text-white/80">
+                        {isExpanded
+                          ? produto.descricao || "Descrição não disponível"
+                          : descricaoAbreviada}
+                      </p>
+                      {produto.descricao && produto.descricao.length > 100 && (
+                        <button
+                          onClick={() =>
+                            toggleDescription(produto.id.toString())
+                          }
+                          className="text-blue-500 hover:underline"
                         >
-                          {isExpanded ? produto.descricao : descricaoCurta}{" "}
-                          {produto.descricao.length > 100 && (
-                            <span className="text-blue-400 underline">
-                              {isExpanded ? "Ver menos" : "Ver mais"}
-                            </span>
-                          )}
-                        </p>
-                      </div>
-                      <p className="font-semibold select-none">
+                          {isExpanded ? "ver menos" : "ver mais"}
+                        </button>
+                      )}
+                      <p className="font-semibold">
                         {produto.preco.toLocaleString("pt-BR", {
                           style: "currency",
                           currency: "BRL",
@@ -90,7 +107,7 @@ const Desserts = () => {
                           Adicionar
                           <Image
                             src={iconCartAdd}
-                            alt="Ícone adicionar carrinho"
+                            alt="Ícone adiconar carrinho"
                             width={20}
                           />
                         </Button>
@@ -107,4 +124,4 @@ const Desserts = () => {
   );
 };
 
-export default Desserts;
+export default Entries;

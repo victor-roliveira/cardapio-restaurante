@@ -8,11 +8,11 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
+import iconCartAdd from "../../app/assets/add-cart-black.svg";
+import { Button } from "../ui/button";
 
 const SomePizzas = () => {
   const [produtos, setProdutos] = useState<Produto[]>([]);
@@ -40,7 +40,7 @@ const SomePizzas = () => {
       <CarouselContent className="w-[900px]">
         {pizzas.slice(0, 5).map((produto) => (
           <CarouselItem key={produto.id} className="basis-auto">
-            <Card className="w-[200px] h-[300px] flex flex-col">
+            <Card className="w-[200px] h-[350px] flex flex-col pb-2">
               <CardContent className="w-full flex flex-col justify-between p-0 h-full">
                 <div className="w-[200px] h-[150px]">
                   <Image
@@ -59,15 +59,25 @@ const SomePizzas = () => {
                     {produto.descricao}
                   </p>
                 </div>
-                <p className="text-base p-1 font-bold text-center">
-                  R$ {produto.preco.toFixed(2)}
-                </p>
+
+                <div className="flex items-center justify-center gap-2">
+                  <p className="text-base p-1 font-bold text-center">
+                    R$ {produto.preco.toFixed(2)}
+                  </p>
+                  <span>
+                    <Image
+                      src={iconCartAdd}
+                      alt="Adicionar ao carrinho"
+                      width={25}
+                      className="cursor-pointer"
+                    />
+                  </span>
+                </div>
               </CardContent>
             </Card>
           </CarouselItem>
         ))}
       </CarouselContent>
-      
     </Carousel>
   );
 };

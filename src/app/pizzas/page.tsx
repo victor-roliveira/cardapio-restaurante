@@ -59,6 +59,7 @@ const Pizzas = () => {
                     <SelectLabel>Categorias</SelectLabel>
                     <SelectItem value="Tradicionais">Tradicionais</SelectItem>
                     <SelectItem value="Especiais">Especiais</SelectItem>
+                    <SelectItem value="Napolitana">Napolitana</SelectItem>
                     <SelectItem value="Doces">Doces</SelectItem>
                   </SelectGroup>
                 </SelectContent>
