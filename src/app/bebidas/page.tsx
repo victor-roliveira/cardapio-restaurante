@@ -26,6 +26,9 @@ const Entries = () => {
   const [expandedDescriptions, setExpandedDescriptions] = useState<{
     [key: string]: boolean;
   }>({});
+  const [subcategoriaSelecionada, setSubcategoriaSelecionada] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     const fetchProdutos = async () => {
@@ -51,16 +54,27 @@ const Entries = () => {
     (produto) => produto.categoria.nome === "Drinks"
   );
 
+  const bebidasFiltradas = bebidas?.filter((produto) => {
+    if (subcategoriaSelecionada) {
+      return produto.subcategoria?.nome === subcategoriaSelecionada;
+    }
+    return true;
+  });
+
   return (
     <>
       <Navbar />
       <div className="flex">
         <MenuCategories />
         <section className="bg-slate-950 w-full h-auto pb-10">
-          <div className="p-10">
+          <div className="pt-10 px-[120px]">
             <div className="flex justify-between">
               <h1 className="text-white text-3xl font-semibold">BEBIDAS</h1>
-              <Select>
+              <Select
+                onValueChange={(value) =>
+                  setSubcategoriaSelecionada(value === "Todas" ? null : value)
+                }
+              >
                 <SelectTrigger className="w-[250px] text-white border-2">
                   <SelectValue placeholder="Selecione uma categoria..." />
                 </SelectTrigger>
@@ -70,16 +84,17 @@ const Entries = () => {
                     <SelectItem value="Tradicionais">Tradicionais</SelectItem>
                     <SelectItem value="Especiais">Especiais</SelectItem>
                     <SelectItem value="Cervejas">Cervejas</SelectItem>
-                    <SelectItem value="Refrigerantes">
+                    <SelectItem value="Refrigerantes e Água">
                       Refrigerantes e Água
                     </SelectItem>
                     <SelectItem value="Vinhos">Vinhos</SelectItem>
+                    <SelectItem value="Todas">Todas</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
             <div className="flex gap-5 flex-wrap">
-              {bebidas?.map((produto) => {
+              {bebidasFiltradas?.map((produto) => {
                 const isExpanded = expandedDescriptions[produto.id];
                 const descricaoAbreviada =
                   (produto.descricao || "").length > 100
