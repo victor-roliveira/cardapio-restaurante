@@ -37,7 +37,7 @@ const Entries = () => {
       <div className="flex">
         <MenuCategories />
         <section className="bg-slate-950 w-full h-auto pb-10">
-          <div className="p-10">
+          <div className="py-10 px-[120px]">
             <h1 className="text-white text-3xl font-semibold">ENTRADAS</h1>
             <div className="flex gap-5 flex-wrap">
               {entradas?.map((produto) => (

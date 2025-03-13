@@ -4,15 +4,6 @@ import Navbar from "@/components/other-components/navbar";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import Image from "next/image";
 import iconCartAdd from "../assets/add-car.svg";
@@ -57,7 +48,7 @@ const Entries = () => {
       <div className="flex">
         <MenuCategories />
         <section className="bg-slate-950 w-full h-auto pb-10">
-          <div className="p-10">
+          <div className="py-10 px-[120px]">
             <h1 className="text-white text-3xl font-semibold">SOBREMESAS</h1>
             <div className="flex gap-5 flex-wrap">
               {bebidas?.map((produto) => {

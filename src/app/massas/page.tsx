@@ -37,13 +37,13 @@ const Masses = () => {
       <div className="flex">
         <MenuCategories />
         <section className="bg-slate-950 w-full h-auto pb-10">
-          <div className="p-10">
+          <div className="py-10 px-[120px]">
             <h1 className="text-white text-3xl font-semibold">MASSAS</h1>
             <div className="flex gap-5 flex-wrap">
               {massas?.map((produto) => (
                 <Card
                   key={produto.id}
-                  className="w-[300px] h-[400px] border-none bg-transparent text-white shadow-none hover:scale-110 transition-all"
+                  className="w-[300px] h-[400px] border-none bg-transparent text-white shadow-none hover:scale-105 transition-all"
                 >
                   <CardContent className="space-y-2 p-0 border-none pt-10">
                     <Image

@@ -24,6 +24,9 @@ import iconCartAdd from "../assets/add-car.svg";
 
 const Pizzas = () => {
   const [produtos, setProdutos] = useState<Produto[] | null>([]);
+  const [subcategoriaSelecionada, setSubcategoriaSelecionada] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     const fetchProdutos = async () => {
@@ -38,35 +41,50 @@ const Pizzas = () => {
     fetchProdutos();
   }, []);
 
+  // Filtrando apenas produtos da categoria "Pizzas"
   const pizzas = produtos?.filter(
     (produto) => produto.categoria.nome === "Pizzas"
   );
+
+  // Filtrando as pizzas pela subcategoria selecionada
+  const pizzasFiltradas = pizzas?.filter((produto) => {
+    if (subcategoriaSelecionada) {
+      return produto.subcategoria?.nome === subcategoriaSelecionada;
+    }
+    return true;
+  });
+
   return (
     <>
       <Navbar />
       <div className="flex">
         <MenuCategories />
         <section className="bg-slate-950 w-full h-auto pb-10">
-          <div className="p-10">
+          <div className="py-10 px-[120px] flex flex-col">
             <div className="flex justify-between">
               <h1 className="text-white text-3xl font-semibold">PIZZAS</h1>
-              <Select>
+              <Select
+                onValueChange={(value) =>
+                  setSubcategoriaSelecionada(value === "Todas" ? null : value)
+                }
+              >
                 <SelectTrigger className="w-[250px] text-white border-2">
                   <SelectValue placeholder="Selecione uma categoria..." />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Categorias</SelectLabel>
-                    <SelectItem value="Tradicionais">Tradicionais</SelectItem>
+                    <SelectItem value="Clássicas">Clássicas</SelectItem>
                     <SelectItem value="Especiais">Especiais</SelectItem>
                     <SelectItem value="Napolitana">Napolitana</SelectItem>
                     <SelectItem value="Doces">Doces</SelectItem>
+                    <SelectItem value="Todas">Todas</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
             <div className="flex gap-5 flex-wrap">
-              {pizzas?.map((produto) => (
+              {pizzasFiltradas?.map((produto) => (
                 <Card
                   key={produto.id}
                   className="w-[300px] h-[400px] border-none bg-transparent text-white shadow-none hover:scale-110 transition-all"
