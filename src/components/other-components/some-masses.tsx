@@ -9,7 +9,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import iconAddCard from "../../app/assets/add-cart-black.svg";
+import iconAddCard from "../../app/assets/add-car.svg";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 
@@ -39,12 +39,12 @@ const SomeMasses = () => {
       <CarouselContent className="w-[900px]">
         {massas.slice(0, 5).map((produto) => (
           <CarouselItem key={produto.id} className="basis-auto">
-            <Card className="w-[200px] h-[350px] flex flex-col pb-2">
-              <CardContent className="w-full flex flex-col justify-between p-0 h-full">
+            <Card className="bg-transparent border-none text-white w-[200px] h-[300px] flex flex-col pb-2">
+              <CardContent className="w-full flex flex-col items-center p-0 h-full">
                 <div className="w-[200px] h-[150px]">
                   <Image
                     src={produto.imagem}
-                    alt={`Imagem pizza ${produto.nome}`}
+                    alt={`Imagem massa: ${produto.nome}`}
                     className="w-full h-full object-cover rounded-t-lg"
                     width={200}
                     height={200}
@@ -53,11 +53,12 @@ const SomeMasses = () => {
                 <h2 className="p-1 text-lg font-semibold text-center">
                   {produto.nome}
                 </h2>
-                <div className="flex-grow flex items-center justify-center">
-                  <p className="text-sm text-center text-gray-500">
+                <div className="flex-grow">
+                  <p className="text-sm text-center text-gray-400 font-medium">
                     {produto.descricao}
                   </p>
                 </div>
+
                 <div className="flex items-center justify-center gap-2">
                   <p className="text-base p-1 font-bold text-center">
                     R$ {produto.preco.toFixed(2)}
@@ -66,7 +67,7 @@ const SomeMasses = () => {
                     <Image
                       src={iconAddCard}
                       alt="Adicionar ao carrinho"
-                      width={25}
+                      width={20}
                       className="cursor-pointer"
                     />
                   </span>
@@ -76,7 +77,6 @@ const SomeMasses = () => {
           </CarouselItem>
         ))}
       </CarouselContent>
-
     </Carousel>
   );
 };

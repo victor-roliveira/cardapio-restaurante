@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import iconCartAdd from "../../app/assets/add-cart-black.svg";
+import iconCartAdd from "../../app/assets/add-car.svg";
 import { Button } from "../ui/button";
 
 const SomePizzas = () => {
@@ -40,8 +40,8 @@ const SomePizzas = () => {
       <CarouselContent className="w-[900px]">
         {pizzas.slice(0, 5).map((produto) => (
           <CarouselItem key={produto.id} className="basis-auto">
-            <Card className="w-[200px] h-[350px] flex flex-col pb-2">
-              <CardContent className="w-full flex flex-col justify-between p-0 h-full">
+            <Card className="bg-transparent border-none text-white w-[200px] h-[300px] flex flex-col pb-2">
+              <CardContent className="w-full flex flex-col items-center p-0 h-full">
                 <div className="w-[200px] h-[150px]">
                   <Image
                     src={produto.imagem}
@@ -54,8 +54,8 @@ const SomePizzas = () => {
                 <h2 className="p-1 text-lg font-semibold text-center">
                   {produto.nome}
                 </h2>
-                <div className="flex-grow flex items-center justify-center">
-                  <p className="text-sm text-center text-gray-500">
+                <div className="flex-grow">
+                  <p className="text-sm text-center text-gray-400 font-medium">
                     {produto.descricao}
                   </p>
                 </div>
@@ -68,7 +68,7 @@ const SomePizzas = () => {
                     <Image
                       src={iconCartAdd}
                       alt="Adicionar ao carrinho"
-                      width={25}
+                      width={20}
                       className="cursor-pointer"
                     />
                   </span>

@@ -19,7 +19,7 @@ const SomeFoods = () => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center text-white text-center">
+      <div className="flex flex-col items-center justify-center text-white text-center pt-5 pb-10">
         <p className="text-white text-2xl font-semibold py-2">
           Algumas das Pizzas
         </p>
@@ -27,7 +27,7 @@ const SomeFoods = () => {
           <SomePizzas />
         </div>
       </div>
-      <div className="flex flex-col items-center text-white text-center">
+      <div className="flex flex-col items-center text-white text-center pb-10">
         <p className="text-white text-2xl font-semibold py-2">
           Algumas das Massas
         </p>
