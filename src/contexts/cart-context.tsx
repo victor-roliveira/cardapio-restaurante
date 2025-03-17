@@ -1,6 +1,7 @@
 "use client";
 import { PedidoProduto } from "@/lib/types/pedidos";
 import { Produto } from "@/lib/types/produto";
+import { get } from "http";
 import { createContext, useContext, useState } from "react";
 
 interface CartContextType {
@@ -8,6 +9,7 @@ interface CartContextType {
   addToCart: (produto: Produto, quantidade?: number) => void;
   removeFromCart: (produtoId: number) => void;
   clearCart: () => void;
+  getTotalValue: () => number;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -28,20 +30,37 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           return item;
         });
       }
+
       return [
         ...prevCart,
         {
           produtoId: produto.id,
           quantidade,
+          produto,
         } as PedidoProduto,
       ];
     });
   };
 
-  const removeFromCart = (produtoId: number) => {
-    setCart((prevCart) =>
-      prevCart.filter((item) => item.produtoId !== produtoId)
-    );
+  const removeFromCart = (id: number) => {
+    setCart((prevItems) => {
+      const itemToRemove = prevItems.find((item) => item.produtoId === id);
+      if (itemToRemove && itemToRemove.quantidade > 1) {
+        return prevItems.map((item) => {
+          if (item.produtoId === id) {
+            return { ...item, quantidade: item.quantidade - 1 };
+          }
+          return item;
+        });
+      }
+      return prevItems.filter((item) => item.produtoId !== id);
+    });
+  };
+
+  const getTotalValue = () => {
+    return cart.reduce((total, item) => {
+      return total + item.produto.preco * item.quantidade;
+    }, 0);
   };
 
   const clearCart = () => {
@@ -50,7 +69,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart }}
+      value={{ cart, addToCart, removeFromCart, clearCart, getTotalValue }}
     >
       {children}
     </CartContext.Provider>

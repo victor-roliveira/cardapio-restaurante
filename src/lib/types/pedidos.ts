@@ -1,3 +1,5 @@
+import { Produto } from "./produto";
+
 export interface Mesa {
   id: number;
   numero: number;
@@ -16,4 +18,5 @@ export interface PedidoProduto {
   pedidoId: number;
   produtoId: number;
   quantidade: number;
+  produto: Produto;
 }
