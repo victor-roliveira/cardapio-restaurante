@@ -55,21 +55,31 @@ const CartMenu = () => {
               />
               <div className="flex-1">
                 <p className="text-lg font-semibold">{item.name}</p>
-                <div className="flex justify-between">
+                <div className="flex justify-between mt-2">
                   <p className="text-gray-600 font-medium">
                     R$ {item.price.toFixed(2)}
                   </p>
                   <div className="flex items-center gap-2">
-                    <Image src={minusIcon} alt="Icone de menos" width={20} />
+                    <Image
+                      src={minusIcon}
+                      alt="Icone de menos"
+                      width={20}
+                      className="hover:scale-110 transition-all"
+                    />
                     <p>Qtd: 1</p>
-                    <Image src={plusIcon} alt="Icone de mais" width={20} />
+                    <Image
+                      src={plusIcon}
+                      alt="Icone de mais"
+                      width={20}
+                      className="hover:scale-110 transition-all"
+                    />
                   </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
-        <Button className="w-full mt-10 bg-orange-500 hover:bg-orange-500/85">
+        <Button className="w-full mt-7 bg-orange-500 hover:bg-orange-500/85">
           Enviar Pedido
           <Image src={checkIcon} alt="Ícone check" width={20} />
         </Button>
