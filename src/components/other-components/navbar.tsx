@@ -1,6 +1,5 @@
-import { Search, Wallet } from "lucide-react";
+import { Search } from "lucide-react";
 import iconOffer from "../../app/assets/offer.svg";
-import iconCart from "../../app/assets/car.svg";
 import iconWallet from "../../app/assets/wallet.svg";
 
 import { Input } from "../ui/input";
@@ -9,6 +8,7 @@ import Link from "next/link";
 
 import logoHome from "../../app/assets/icon-home.svg";
 import Image from "next/image";
+import CartMenu from "./cart-menu";
 
 const Navbar = () => {
   return (
@@ -32,13 +32,10 @@ const Navbar = () => {
           Ofertas
           <Image src={iconOffer} alt="Ícone ofertas" width={20} />
         </Button>
-        <Button className="h-[70px] bg-orange-500 rounded-none border-r">
-          Carrinho
-          <Image src={iconCart} alt="Ícone carrinho" width={20} />
-        </Button>
+        <CartMenu />
         <Button className="h-[70px] bg-orange-500 rounded-none">
           Conta
-          <Image src={iconWallet} alt="Ícone carteira" width={20}/>
+          <Image src={iconWallet} alt="Ícone carteira" width={20} />
         </Button>
       </div>
     </nav>

@@ -13,9 +13,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import iconCartAdd from "../../app/assets/add-car.svg";
 import { Button } from "../ui/button";
+import { useCart } from "@/contexts/cart-context";
 
 const SomePizzas = () => {
   const [produtos, setProdutos] = useState<Produto[]>([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProdutos = async () => {
@@ -64,14 +66,17 @@ const SomePizzas = () => {
                   <p className="text-base p-1 font-bold text-center">
                     R$ {produto.preco.toFixed(2)}
                   </p>
-                  <span>
+                  <Button
+                    onClick={() => addToCart(produto)}
+                    className="bg-transparent"
+                  >
                     <Image
                       src={iconCartAdd}
                       alt="Adicionar ao carrinho"
                       width={20}
                       className="cursor-pointer"
                     />
-                  </span>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
