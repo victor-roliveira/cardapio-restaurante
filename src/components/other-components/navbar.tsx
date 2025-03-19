@@ -10,7 +10,9 @@ import logoHome from "../../app/assets/icon-home.svg";
 import Image from "next/image";
 import CartMenu from "./cart-menu";
 
+
 const Navbar = () => {
+
   return (
     <nav className="flex items-center justify-between h-[70px] max-h-[70px] bg-black text-white">
       <div className="flex items-center gap-4">
@@ -27,7 +29,7 @@ const Navbar = () => {
         />
         <Search className="absolute left-2 top-1/2 transform -translate-y-1/2" />
       </div>
-      <div>
+      <div className="flex items-center relative">
         <Button className="h-[70px] bg-orange-500 rounded-none border-l border-r">
           Ofertas
           <Image src={iconOffer} alt="Ícone ofertas" width={20} />
