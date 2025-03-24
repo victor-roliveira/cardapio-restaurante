@@ -69,7 +69,12 @@ export default function Home() {
 
         <button
           onClick={handleConfirmar}
-          className="w-[200px] text-center p-1 bg-white hover:bg-white/85 text-black rounded-md transition-all"
+          disabled={!mesaSelecionada}
+          className={`w-[200px] text-center p-1 rounded-md transition-all ${
+            mesaSelecionada
+              ? "bg-white hover:bg-white/85 text-black"
+              : "bg-gray-200 text-black/40 cursor-not-allowed"
+          }`}
         >
           Confirmar
         </button>

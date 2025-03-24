@@ -21,9 +21,11 @@ import { useEffect, useState } from "react";
 
 import Image from "next/image";
 import iconCartAdd from "../assets/add-car.svg";
+import { useCart } from "@/contexts/cart-context";
 
 const Pizzas = () => {
   const [produtos, setProdutos] = useState<Produto[] | null>([]);
+  const { addToCart } = useCart();
   const [subcategoriaSelecionada, setSubcategoriaSelecionada] = useState<
     string | null
   >(null);
@@ -106,7 +108,10 @@ const Pizzas = () => {
                       })}
                     </p>
                     <div className="pt-2">
-                      <Button className="bg-transparent rounded-sm border-[1.5px] border-gray-300">
+                      <Button
+                        onClick={() => addToCart(produto)}
+                        className="bg-transparent rounded-sm border-[1.5px] border-gray-300"
+                      >
                         Adicionar
                         <Image
                           src={iconCartAdd}

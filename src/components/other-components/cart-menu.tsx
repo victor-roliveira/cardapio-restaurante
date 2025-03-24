@@ -2,8 +2,6 @@
 import Image from "next/image";
 import iconCart from "../../app/assets/car.svg";
 import checkIcon from "../../app/assets/check-icon.svg";
-import plusIcon from "../../app/assets/plus-icon.svg";
-import minusIcon from "../../app/assets/minus-icon.svg";
 
 import { Button } from "../ui/button";
 import {
