@@ -145,7 +145,7 @@ const Navbar = () => {
               ))
             ) : (
               <p className="text-gray-500 text-sm mt-2">
-                Busque...
+                Nenhum produto encontrado
               </p>
             )}
           </div>

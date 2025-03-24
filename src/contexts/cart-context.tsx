@@ -1,8 +1,9 @@
 "use client";
-import { PedidoProduto } from "@/lib/types/pedidos";
+import { api } from "@/lib/axios";
+import { Pedido, PedidoProduto } from "@/lib/types/pedidos";
 import { Produto } from "@/lib/types/produto";
-import { get } from "http";
 import { createContext, useContext, useState } from "react";
+import { toast } from "sonner";
 
 interface CartContextType {
   cart: PedidoProduto[];
@@ -10,6 +11,7 @@ interface CartContextType {
   removeFromCart: (produtoId: number) => void;
   clearCart: () => void;
   getTotalValue: () => number;
+  submitOrder: (mesaId: number) => Promise<void>;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -67,9 +69,45 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setCart([]);
   };
 
+  const submitOrder = async (mesaId: number) => {
+    if (cart.length === 0) {
+      alert("O carrinho está vazio!");
+      return;
+    }
+
+    const pedido: Pedido = {
+      mesaId,
+      status: "pendente",
+      produtos: cart,
+    };
+
+    try {
+      const response = await api.post("/pedidos", {
+        ...pedido,
+      });
+
+      if (response.status != 201) {
+        toast.error("Pedido não enviado.");
+      }
+
+      clearCart();
+      toast.success("Pedido enviado com sucesso!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Erro ao enviar pedido");
+    }
+  };
+
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart, getTotalValue }}
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        getTotalValue,
+        submitOrder,
+      }}
     >
       {children}
     </CartContext.Provider>

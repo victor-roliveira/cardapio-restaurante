@@ -7,7 +7,7 @@ export interface Mesa {
 }
 
 export interface Pedido {
-  id: number;
+  id?: number;
   mesaId: number;
   status: String;
   produtos: PedidoProduto[];

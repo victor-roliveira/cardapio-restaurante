@@ -15,15 +15,38 @@ import {
 
 import { useCart } from "@/contexts/cart-context";
 import { Minus, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const CartMenu = () => {
-  const { cart, addToCart, removeFromCart, clearCart, getTotalValue } =
-    useCart();
+  const {
+    cart,
+    addToCart,
+    removeFromCart,
+    clearCart,
+    getTotalValue,
+    submitOrder,
+  } = useCart();
+  const [numeroMesa, setNumeroMesa] = useState<number | null>(null);
   const hasItems = cart.length > 0;
 
   const totalItems = cart.reduce((total, item) => {
     return total + item.quantidade;
   }, 0);
+
+  useEffect(() => {
+    const mesaSelecionada = localStorage.getItem("mesaSelecionada");
+    if (mesaSelecionada) {
+      const mesa = JSON.parse(mesaSelecionada);
+      setNumeroMesa(mesa.id);
+    }
+  }, []);
+
+  const handleOrder = () => {
+    const mesaId = numeroMesa;
+    if (mesaId) {
+      submitOrder(mesaId);
+    }
+  };
 
   return (
     <Sheet>
@@ -91,7 +114,7 @@ const CartMenu = () => {
           <p className="text-2xl">R$ {getTotalValue().toFixed(2)}</p>
         </div>
 
-        <Button className="w-full p-6 mt-3 bg-orange-500 hover:bg-orange-500/85">
+        <Button onClick={handleOrder} className="w-full p-6 mt-3 bg-orange-500 hover:bg-orange-500/85">
           <p className="text-2xl">Enviar Pedido</p>
           <Image src={checkIcon} alt="Ícone check" width={25} />
         </Button>
