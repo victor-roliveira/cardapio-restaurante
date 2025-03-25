@@ -28,6 +28,7 @@ const CartMenu = () => {
   } = useCart();
   const [numeroMesa, setNumeroMesa] = useState<number | null>(null);
   const hasItems = cart.length > 0;
+  const [adicionando, setAdicionando] = useState(false);
 
   const totalItems = cart.reduce((total, item) => {
     return total + item.quantidade;
@@ -41,12 +42,17 @@ const CartMenu = () => {
     }
   }, []);
 
-  const handleOrder = () => {
+  const handleOrder = async () => {
+    setAdicionando(true);
     const mesaId = numeroMesa;
+  
     if (mesaId) {
-      submitOrder(mesaId);
+      await submitOrder(mesaId); 
     }
+  
+    setAdicionando(false);
   };
+  
 
   return (
     <Sheet>
@@ -61,7 +67,7 @@ const CartMenu = () => {
           </Button>
         </div>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="flex flex-col h-full">
         <SheetHeader>
           <SheetTitle className="flex gap-2 items-center text-2xl font-bold">
             <p className="text-4xl">Pedidos</p>
@@ -73,7 +79,7 @@ const CartMenu = () => {
             Visualize seus pedidos aqui
           </SheetDescription>
         </SheetHeader>
-        <div className="mt-4 space-y-4 max-h-[470px] border-b-2 overflow-y-scroll">
+        <div className="mt-4 space-y-4 flex-1 overflow-y-auto max-h-[470px] border-b-2">
           {cart.map((item) => (
             <div key={item.id} className="flex items-center gap-4 p-2 border-b">
               <Image
@@ -109,15 +115,25 @@ const CartMenu = () => {
             </div>
           ))}
         </div>
-        <div className="flex justify-between mt-3">
-          <p className="text-2xl font-semibold">Total</p>
-          <p className="text-2xl">R$ {getTotalValue().toFixed(2)}</p>
+        <div className="sticky bottom-0 bg-white p-4 border-t shadow-md">
+          <div className="flex justify-between mb-3">
+            <p className="text-2xl font-semibold">Total</p>
+            <p className="text-2xl">R$ {getTotalValue().toFixed(2)}</p>
+          </div>
+          <Button
+            onClick={handleOrder}
+            className="w-full p-6 bg-orange-500 hover:bg-orange-500/85"
+          >
+            {adicionando ? (
+              <div className="loader"></div>
+            ) : (
+              <div className="flex gap-3">
+                <p className="text-2xl">Enviar Pedido</p>
+                <Image src={checkIcon} alt="Ícone check" width={25} />
+              </div>
+            )}
+          </Button>
         </div>
-
-        <Button onClick={handleOrder} className="w-full p-6 mt-3 bg-orange-500 hover:bg-orange-500/85">
-          <p className="text-2xl">Enviar Pedido</p>
-          <Image src={checkIcon} alt="Ícone check" width={25} />
-        </Button>
       </SheetContent>
     </Sheet>
   );
