@@ -4,6 +4,11 @@ import { Pedido, PedidoProduto } from "@/lib/types/pedidos";
 import { Produto } from "@/lib/types/produto";
 import { createContext, useContext, useState } from "react";
 import { toast } from "sonner";
+import { io } from "socket.io-client";
+
+const socket = io("https://restaurante-api-wv3i.onrender.com", {
+  transports: ["websocket", "polling"],
+}); // Conectar ao servidor WebSocket
 
 interface CartContextType {
   cart: PedidoProduto[];
@@ -92,6 +97,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
       clearCart();
       toast.success("Pedido enviado com sucesso!");
+      socket.emit("pedidoCriado", response.data);
     } catch (error) {
       console.error(error);
       toast.error("Erro ao enviar pedido");
