@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 
 const socket = io("https://restaurante-api-wv3i.onrender.com", {
   transports: ["websocket", "polling"],
-}); // Conectar ao servidor WebSocket
+}); 
 
 interface CartContextType {
   cart: PedidoProduto[];

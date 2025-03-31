@@ -3,6 +3,7 @@ import { Kanit } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/contexts/cart-context";
 import { Toaster } from "@/components/ui/sonner";
+import { AppProviders } from "@/contexts/app-providers";
 
 const kanit = Kanit({
   subsets: ["latin"],
@@ -21,10 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <CartProvider>
+      <AppProviders>
         <body className={`${kanit.className} antialiased`}>{children}</body>
         <Toaster />
-      </CartProvider>
+      </AppProviders>
     </html>
   );
 }

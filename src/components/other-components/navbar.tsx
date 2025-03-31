@@ -21,7 +21,7 @@ import iconCart from "../../app/assets/car.svg";
 import { useCart } from "@/contexts/cart-context";
 import { toast } from "sonner";
 import PaymentMenu from "./payment-menu";
-import { io, Socket } from "socket.io-client";
+import { useSocket } from "@/contexts/socket-provider";
 
 const Navbar = () => {
   const [numeroMesa, setNumeroMesa] = useState<number | null>(null);
@@ -30,43 +30,7 @@ const Navbar = () => {
   const [modalAberto, setModalAberto] = useState(false);
   const [loading, setLoading] = useState(false);
   const { addToCart } = useCart();
-  const [socket, setSocket] = useState<Socket | null>(null);
-
-  useEffect(() => {
-    // Crie a instância do Socket.IO
-    const socketInstance = io("wss://restaurante-api-wv3i.onrender.com", {
-      transports: ["websocket"],
-      reconnectionAttempts: 5,
-      reconnectionDelay: 1000,
-      withCredentials: true,
-    });
-
-    // Eventos do Socket.IO
-    socketInstance.on("connect", () => {
-      console.log("Conectado ao servidor WebSocket");
-      setSocket(socketInstance);
-    });
-
-    socketInstance.on("connect_error", (err) => {
-      console.error("Erro na conexão:", err.message);
-      toast.error("Falha na conexão com o servidor");
-    });
-
-    socketInstance.on("disconnect", (reason) => {
-      console.log("Desconectado do servidor:", reason);
-      if (reason === "io server disconnect") {
-        // Reconecta manualmente se o servidor desconectar
-        socketInstance.connect();
-      }
-    });
-
-    // Limpeza ao desmontar o componente
-    return () => {
-      if (socketInstance) {
-        socketInstance.disconnect();
-      }
-    };
-  }, []);
+  const socket = useSocket(); 
 
   useEffect(() => {
     const mesaSelecionada = localStorage.getItem("mesaSelecionada");
@@ -111,7 +75,7 @@ const Navbar = () => {
       return;
     }
 
-    if (!socket || !socket.connect) {
+    if (!socket) {
       toast.error("Conexão não estabelecida. Tente novamente.");
       return;
     }
