@@ -14,12 +14,14 @@ import Image from "next/image";
 import Link from "next/link";
 import logoHome from "@/app/assets/icon-home.svg";
 import bellIcon from "@/app/assets/bell-icon.svg";
-import iconWallet from "@/app/assets/wallet.svg";
 import CartMenu from "../other-components/cart-menu";
 import { api } from "@/lib/axios";
 import { Produto } from "@/lib/types/produto";
 import iconCart from "../../app/assets/car.svg";
 import { useCart } from "@/contexts/cart-context";
+import { toast } from "sonner";
+import PaymentMenu from "./payment-menu";
+import { io, Socket } from "socket.io-client";
 
 const Navbar = () => {
   const [numeroMesa, setNumeroMesa] = useState<number | null>(null);
@@ -28,6 +30,43 @@ const Navbar = () => {
   const [modalAberto, setModalAberto] = useState(false);
   const [loading, setLoading] = useState(false);
   const { addToCart } = useCart();
+  const [socket, setSocket] = useState<Socket | null>(null);
+
+  useEffect(() => {
+    // Crie a instância do Socket.IO
+    const socketInstance = io("wss://restaurante-api-wv3i.onrender.com", {
+      transports: ["websocket"],
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
+      withCredentials: true,
+    });
+
+    // Eventos do Socket.IO
+    socketInstance.on("connect", () => {
+      console.log("Conectado ao servidor WebSocket");
+      setSocket(socketInstance);
+    });
+
+    socketInstance.on("connect_error", (err) => {
+      console.error("Erro na conexão:", err.message);
+      toast.error("Falha na conexão com o servidor");
+    });
+
+    socketInstance.on("disconnect", (reason) => {
+      console.log("Desconectado do servidor:", reason);
+      if (reason === "io server disconnect") {
+        // Reconecta manualmente se o servidor desconectar
+        socketInstance.connect();
+      }
+    });
+
+    // Limpeza ao desmontar o componente
+    return () => {
+      if (socketInstance) {
+        socketInstance.disconnect();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const mesaSelecionada = localStorage.getItem("mesaSelecionada");
@@ -65,6 +104,26 @@ const Navbar = () => {
 
     return () => clearTimeout(delayDebounce);
   }, [busca]);
+
+  const callWaiter = () => {
+    if (!numeroMesa) {
+      toast.error("Por favor, selecione uma mesa primeiro");
+      return;
+    }
+
+    if (!socket || !socket.connect) {
+      toast.error("Conexão não estabelecida. Tente novamente.");
+      return;
+    }
+
+    try {
+      socket.emit("chamarGarcom", numeroMesa);
+      toast.success(`Garçom chamado para a mesa ${numeroMesa}!`);
+    } catch (error) {
+      console.error("Erro ao chamar garçom:", error);
+      toast.error("Erro ao chamar garçom. Tente novamente.");
+    }
+  };
 
   return (
     <nav className="flex items-center justify-between h-[70px] bg-black text-white">
@@ -153,7 +212,10 @@ const Navbar = () => {
       </Dialog>
 
       <div className="flex items-center relative">
-        <Button className="h-[70px] bg-orange-500 rounded-none border-l border-r text-center break-words">
+        <Button
+          onClick={callWaiter}
+          className="h-[70px] bg-orange-500 rounded-none border-l border-r text-center break-words"
+        >
           <span>
             Chamar
             <br />
@@ -162,10 +224,7 @@ const Navbar = () => {
           <Image src={bellIcon} alt="Ícone chamar garçom" width={20} />
         </Button>
         <CartMenu />
-        <Button className="h-[70px] bg-orange-500 rounded-none text-center break-words">
-          <span className="block text-sm leading-tight">Conta</span>
-          <Image src={iconWallet} alt="Ícone carteira" width={20} />
-        </Button>
+        <PaymentMenu />
       </div>
     </nav>
   );
