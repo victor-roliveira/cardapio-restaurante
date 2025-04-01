@@ -10,7 +10,7 @@ import Image from "next/image";
 
 const MenuCategories = () => {
   return (
-    <aside className="bg-black w-[100px]">
+    <aside className="bg-black w-[100px] fixed h-full left-0 top-20">
       <div>
         <p className="text-base text-center text-white pt-2">Categorias</p>
         <div className="pt-5">

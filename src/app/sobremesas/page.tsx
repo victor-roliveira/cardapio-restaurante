@@ -49,7 +49,7 @@ const Entries = () => {
       <Navbar />
       <div className="flex">
         <MenuCategories />
-        <section className="bg-slate-950 w-full h-auto pb-10">
+        <section className="bg-slate-950 w-full h-auto pb-10 pl-[100px]">
           <div className="py-10 px-[120px]">
             <h1 className="text-white text-3xl font-semibold">SOBREMESAS</h1>
             <div className="flex gap-5 flex-wrap">
