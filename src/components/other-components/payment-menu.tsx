@@ -12,9 +12,10 @@ import Image from "next/image";
 
 import iconWallet from "@/app/assets/wallet.svg";
 import { useEffect, useState } from "react";
-import { Pedido } from "@/lib/types/pedidos";
+import { Conta, Pedido } from "@/lib/types/pedidos";
 import { toast } from "sonner";
 import { useSocket } from "@/contexts/socket-provider";
+import { api } from "@/lib/axios";
 
 const PaymentMenu = () => {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
@@ -24,26 +25,38 @@ const PaymentMenu = () => {
   const socket = useSocket();
 
   useEffect(() => {
-    const storedMesa = localStorage.getItem("mesaSelecionada");
+    const fetchPedidosPorConta = async () => {
+      const storedConta = localStorage.getItem("conta");
+      if (!storedConta) {
+        toast.error("Conta não encontrada no armazenamento local.");
+        return;
+      }
 
-    if (storedMesa) {
-      const mesa = JSON.parse(storedMesa);
-      const pedidosMesa: Pedido[] = mesa.pedidos || [];
+      const conta: Conta = JSON.parse(storedConta);
+      const contaId = conta.id;
 
-      console.log(`Pedidos da mesa: ${mesa.numero}`, pedidosMesa);
-      setPedidos(pedidosMesa);
+      try {
+        const response = await api(`/contas/${contaId}`);
+        const pedidosConta: Pedido[] = response.data.pedidos || [];
 
-      // Calcula o total dos pedidos
-      const totalCalculado = pedidosMesa.reduce((acc, pedido) => {
-        const subtotal = pedido.produtos.reduce(
-          (sum, produto) => sum + produto.produto.preco * produto.quantidade,
-          0
-        );
-        return acc + subtotal;
-      }, 0);
+        setPedidos(pedidosConta);
 
-      setTotal(totalCalculado);
-    }
+        const totalCalculado = pedidosConta.reduce((acc, pedido) => {
+          const subtotal = pedido.produtos.reduce(
+            (sum, produto) => sum + produto.produto.preco * produto.quantidade,
+            0
+          );
+          return acc + subtotal;
+        }, 0);
+
+        setTotal(totalCalculado);
+      } catch (error) {
+        console.error("Erro ao buscar pedidos da conta:", error);
+        toast.error("Erro ao carregar os pedidos da conta.");
+      }
+    };
+
+    fetchPedidosPorConta();
   }, []);
 
   const requestPayment = async () => {
@@ -92,7 +105,7 @@ const PaymentMenu = () => {
       </SheetTrigger>
       <SheetContent className="flex flex-col h-full">
         <SheetHeader>
-          <SheetTitle className="flex gap-2 items-center text-2xl font-bold">
+          <SheetTitle className="flex items-center text-2xl font-bold">
             <p className="text-4xl">Conta Final</p>
           </SheetTitle>
           <SheetDescription className="text-md font-medium">

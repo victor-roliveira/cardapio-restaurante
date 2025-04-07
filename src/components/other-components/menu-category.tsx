@@ -17,7 +17,7 @@ const MenuCategories = () => {
           <div className="border-b-2 border-t-2">
             <Link
               href="/entradas"
-              className="flex flex-col items-center justify-center text-white h-[100px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
+              className="flex flex-col items-center justify-center text-white h-[75px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
             >
               <Drumstick />
               Entradas
@@ -26,7 +26,7 @@ const MenuCategories = () => {
           <div className="border-b-2">
             <Link
               href="/pizzas"
-              className="flex flex-col items-center justify-center text-white h-[100px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
+              className="flex flex-col items-center justify-center text-white h-[75px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
             >
               <Image src={iconPizza} alt="Ícone pizza" width={30} />
               Pizzas
@@ -35,7 +35,7 @@ const MenuCategories = () => {
           <div className="border-b-2">
             <Link
               href="/massas"
-              className="flex flex-col items-center justify-center text-white h-[100px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
+              className="flex flex-col items-center justify-center text-white h-[75px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
             >
               <Image src={iconMassa} alt="Ícone massas" width={30} />
               Massas
@@ -44,7 +44,7 @@ const MenuCategories = () => {
           <div className="border-b-2">
             <Link
               href="/pratos"
-              className="flex flex-col items-center justify-center text-white h-[100px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
+              className="flex flex-col items-center justify-center text-white h-[75px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
             >
               <Image src={iconPratos} alt="Ícone pratos" width={30} />
               Pratos
@@ -53,7 +53,7 @@ const MenuCategories = () => {
           <div className="border-b-2">
             <Link
               href="/sobremesas"
-              className="flex flex-col items-center justify-center text-white h-[100px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
+              className="flex flex-col items-center justify-center text-white h-[75px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
             >
               <Image src={iconSobremesa} alt="Ícone sobremesa" width={30} />
               Sobremesas
@@ -62,7 +62,7 @@ const MenuCategories = () => {
           <div className="border-b-2">
             <Link
               href="/bebidas"
-              className="flex flex-col items-center justify-center text-white h-[100px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
+              className="flex flex-col items-center justify-center text-white h-[75px] w-full bg-orange-400 hover:bg-primary/90 transition-colors rounded-none"
             >
               <Image src={iconDrinks} alt="Ícone bebidas" width={30} />
               Bebidas

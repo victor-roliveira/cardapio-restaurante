@@ -27,6 +27,7 @@ const CartMenu = () => {
     submitOrder,
   } = useCart();
   const [numeroMesa, setNumeroMesa] = useState<number | null>(null);
+  const [numeroConta, setNumeroConta] = useState<number | null>(null);
   const hasItems = cart.length > 0;
   const [adicionando, setAdicionando] = useState(false);
 
@@ -40,19 +41,24 @@ const CartMenu = () => {
       const mesa = JSON.parse(mesaSelecionada);
       setNumeroMesa(mesa.id);
     }
+    const contaSelecionada = localStorage.getItem("conta");
+    if (contaSelecionada) {
+      const conta = JSON.parse(contaSelecionada);
+      setNumeroConta(conta.id);
+    }
   }, []);
 
   const handleOrder = async () => {
     setAdicionando(true);
     const mesaId = numeroMesa;
-  
-    if (mesaId) {
-      await submitOrder(mesaId); 
+    const contaId = numeroConta;
+
+    if (mesaId && contaId) {
+      await submitOrder(mesaId, contaId ?? null);
     }
-  
+
     setAdicionando(false);
   };
-  
 
   return (
     <Sheet>
@@ -81,7 +87,7 @@ const CartMenu = () => {
         </SheetHeader>
         <div className="mt-4 space-y-4 flex-1 overflow-y-auto max-h-[470px] border-b-2">
           {cart.map((item) => (
-            <div key={item.id} className="flex items-center gap-4 p-2 border-b">
+            <div className="flex items-center gap-4 p-2 border-b">
               <Image
                 src={item.produto.imagem}
                 alt={item.produto.nome}
@@ -89,7 +95,7 @@ const CartMenu = () => {
                 height={50}
                 className="rounded"
               />
-              <div className="flex-1">
+              <div key={item.produtoId} className="flex-1">
                 <p className="text-2xl font-semibold">{item.produto.nome}</p>
                 <div className="flex justify-between mt-2">
                   <p className="text-gray-600 font-medium text-lg">

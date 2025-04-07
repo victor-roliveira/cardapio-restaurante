@@ -10,6 +10,7 @@ export interface Pedido {
   id?: number;
   mesaId: number;
   status: String;
+  contaId?: number;
   produtos: PedidoProduto[];
 }
 
@@ -19,4 +20,11 @@ export interface PedidoProduto {
   produtoId: number;
   quantidade: number;
   produto: Produto;
+}
+
+export interface Conta {
+  id?: number;
+  donoConta: string;
+  statusConta: String;
+  pedidos: Pedido[];
 }

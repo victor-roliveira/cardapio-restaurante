@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 
 const socket = io("https://restaurante-api-wv3i.onrender.com", {
   transports: ["websocket", "polling"],
-}); 
+});
 
 interface CartContextType {
   cart: PedidoProduto[];
@@ -16,7 +16,7 @@ interface CartContextType {
   removeFromCart: (produtoId: number) => void;
   clearCart: () => void;
   getTotalValue: () => number;
-  submitOrder: (mesaId: number) => Promise<void>;
+  submitOrder: (mesaId: number, contaId?: number) => Promise<void>;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -74,7 +74,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setCart([]);
   };
 
-  const submitOrder = async (mesaId: number) => {
+  const submitOrder = async (mesaId: number, contaId?: number) => {
     if (cart.length === 0) {
       alert("O carrinho está vazio!");
       return;
@@ -83,6 +83,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const pedido: Pedido = {
       mesaId,
       status: "pendente",
+      contaId,
       produtos: cart,
     };
 
