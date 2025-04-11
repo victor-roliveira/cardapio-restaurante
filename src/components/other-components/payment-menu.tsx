@@ -12,7 +12,7 @@ import Image from "next/image";
 
 import iconWallet from "@/app/assets/wallet.svg";
 import { useEffect, useState } from "react";
-import { Conta, Pedido } from "@/lib/types/pedidos";
+import { Conta, Mesa, Pedido } from "@/lib/types/pedidos";
 import { toast } from "sonner";
 import { useSocket } from "@/contexts/socket-provider";
 import { api } from "@/lib/axios";
@@ -64,13 +64,17 @@ const PaymentMenu = () => {
 
     try {
       const storedMesa = localStorage.getItem("mesaSelecionada");
-      if (!storedMesa) {
-        toast.error("Erro ao recuperar a mesa!");
+      const storedConta = localStorage.getItem("conta");
+
+      if (!storedMesa || !storedConta) {
+        toast.error("Erro ao recuperar dados da mesa ou da conta!");
         return;
       }
 
-      const mesa = JSON.parse(storedMesa);
+      const mesa: Mesa = JSON.parse(storedMesa);
+      const conta: Conta = JSON.parse(storedConta);
 
+      // Garantindo que a mesa no localStorage continue válida
       localStorage.setItem(
         "mesaSelecionada",
         JSON.stringify({ numero: mesa.numero })
@@ -79,7 +83,9 @@ const PaymentMenu = () => {
       await new Promise((resolve) => setTimeout(resolve, 400));
 
       if (socket) {
-        socket.emit("solicitandoConta", { mesaId: mesa.numero, total });
+        // Agora estamos passando mesa e conta como objetos completos
+        socket.emit("solicitandoConta", mesa, conta);
+
         toast.success("Conta solicitada com sucesso!", { duration: 2000 });
         setTimeout(() => setSheetOpen(false), 5000);
       } else {
