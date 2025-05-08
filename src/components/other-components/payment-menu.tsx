@@ -83,8 +83,12 @@ const PaymentMenu = () => {
       await new Promise((resolve) => setTimeout(resolve, 400));
 
       if (socket) {
-        // Agora estamos passando mesa e conta como objetos completos
-        socket.emit("solicitandoConta", mesa, conta);
+        // Emitindo apenas os dados essenciais
+        socket.emit("solicitandoConta", {
+          numeroMesa: mesa.numero,
+          donoConta: conta.donoConta,
+          totalConta: total,
+        });
 
         toast.success("Conta solicitada com sucesso!", { duration: 2000 });
         setTimeout(() => setSheetOpen(false), 5000);

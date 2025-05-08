@@ -16,6 +16,7 @@ import {
 import { useCart } from "@/contexts/cart-context";
 import { Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const CartMenu = () => {
   const {
@@ -35,31 +36,24 @@ const CartMenu = () => {
     return total + item.quantidade;
   }, 0);
 
-  useEffect(() => {
-    const mesaSelecionada = localStorage.getItem("mesaSelecionada");
-    if (mesaSelecionada) {
-      const mesa = JSON.parse(mesaSelecionada);
-      setNumeroMesa(mesa.id);
-    }
-    const contaSelecionada = localStorage.getItem("conta");
-    if (contaSelecionada) {
-      const conta = JSON.parse(contaSelecionada);
-      setNumeroConta(conta.id);
-    }
-  }, []);
-
   const handleOrder = async () => {
     setAdicionando(true);
-    const mesaId = numeroMesa;
-    const contaId = numeroConta;
 
-    if (mesaId && contaId) {
-      await submitOrder(mesaId, contaId ?? null);
+    const mesaSelecionada = localStorage.getItem("mesaSelecionada");
+    const contaSelecionada = localStorage.getItem("conta");
+
+    const mesa = mesaSelecionada ? JSON.parse(mesaSelecionada) : null;
+    const conta = contaSelecionada ? JSON.parse(contaSelecionada) : null;
+
+    if (mesa?.id && conta?.id) {
+      await submitOrder(mesa.id, conta.id);
+    } else {
+      toast.error("Mesa ou conta inválida!");
     }
 
     setAdicionando(false);
   };
-
+  
   return (
     <Sheet>
       <SheetTrigger asChild>
