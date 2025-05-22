@@ -24,66 +24,101 @@ const PaymentMenu = () => {
   const [sheetOpen, setSheetOpen] = useState(false);
   const socket = useSocket();
 
+  // Função para buscar pedidos da conta
+  const fetchPedidosPorConta = async (contaId: number | undefined) => {
+    try {
+      const response = await api(`/contas/${contaId}`);
+      const pedidosConta: Pedido[] = response.data.pedidos || [];
+      setPedidos(pedidosConta);
+      calcularTotal(pedidosConta);
+    } catch (error) {
+      console.error("Erro ao buscar pedidos da conta:", error);
+      toast.error("Erro ao carregar os pedidos da conta.");
+    }
+  };
+
+  // Função para calcular o total da conta
+  const calcularTotal = (pedidos: Pedido[]) => {
+    const totalCalculado = pedidos.reduce((acc, pedido) => {
+      const subtotal = pedido.produtos.reduce(
+        (sum, produto) => sum + produto.produto.preco * produto.quantidade,
+        0
+      );
+      return acc + subtotal;
+    }, 0);
+    setTotal(totalCalculado);
+  };
+
+  // Efeito para carregar os pedidos iniciais
   useEffect(() => {
-    const fetchPedidosPorConta = async () => {
-      const storedConta = localStorage.getItem("conta");
-      if (!storedConta) {
-        toast.error("Conta não encontrada no armazenamento local.");
-        return;
-      }
+    const storedConta = localStorage.getItem("conta");
+    if (!storedConta) {
+      toast.error("Conta não encontrada no armazenamento local.");
+      return;
+    }
 
-      const conta: Conta = JSON.parse(storedConta);
-      const contaId = conta.id;
+    const conta: Conta = JSON.parse(storedConta);
+    fetchPedidosPorConta(conta?.id);
+  }, []);
 
-      try {
-        const response = await api(`/contas/${contaId}`);
-        const pedidosConta: Pedido[] = response.data.pedidos || [];
+  // Efeito para configurar os listeners do WebSocket
+  useEffect(() => {
+    if (!socket) return;
 
-        setPedidos(pedidosConta);
+    const storedConta = localStorage.getItem("conta");
+    if (!storedConta) return;
 
-        const totalCalculado = pedidosConta.reduce((acc, pedido) => {
-          const subtotal = pedido.produtos.reduce(
-            (sum, produto) => sum + produto.produto.preco * produto.quantidade,
-            0
-          );
-          return acc + subtotal;
-        }, 0);
+    const conta: Conta = JSON.parse(storedConta);
 
-        setTotal(totalCalculado);
-      } catch (error) {
-        console.error("Erro ao buscar pedidos da conta:", error);
-        toast.error("Erro ao carregar os pedidos da conta.");
+    // Listener para atualização de pedidos
+    const handleAtualizacaoPedidos = (data: { contaId: number }) => {
+      if (data.contaId === conta.id) {
+        fetchPedidosPorConta(conta.id);
+        toast.info("Novos pedidos foram adicionados à conta!");
       }
     };
 
-    fetchPedidosPorConta();
-  }, []);
+    socket.on("atualizarPedidos", handleAtualizacaoPedidos);
 
+    // Limpeza do listener quando o componente desmontar
+    return () => {
+      socket.off("atualizarPedidos", handleAtualizacaoPedidos);
+    };
+  }, [socket]);
+
+  // Função para solicitar pagamento
   const requestPayment = async () => {
     setLoading(true);
+    if (socket && !socket.connected) {
+      toast.info("Reconectando ao servidor...");
+      socket.connect();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
 
     try {
       const storedMesa = localStorage.getItem("mesaSelecionada");
       const storedConta = localStorage.getItem("conta");
 
+      // Verificação mais robusta dos dados
       if (!storedMesa || !storedConta) {
-        toast.error("Erro ao recuperar dados da mesa ou da conta!");
+        toast.error("Dados da mesa/conta não encontrados!");
         return;
       }
 
       const mesa: Mesa = JSON.parse(storedMesa);
       const conta: Conta = JSON.parse(storedConta);
 
-      // Garantindo que a mesa no localStorage continue válida
-      localStorage.setItem(
-        "mesaSelecionada",
-        JSON.stringify({ numero: mesa.numero })
-      );
+      // Verificação adicional dos IDs
+      if (!mesa.id || !conta.id) {
+        toast.error("IDs da mesa/conta inválidos!");
+        return;
+      }
 
+      // Delay apenas para visualização - pode ser removido em produção
       await new Promise((resolve) => setTimeout(resolve, 400));
 
       if (socket) {
-        // Emitindo apenas os dados essenciais
+        // Emitir evento de solicitação de conta
         socket.emit("solicitandoConta", {
           numeroMesa: mesa.numero,
           donoConta: conta.donoConta,
@@ -91,15 +126,20 @@ const PaymentMenu = () => {
         });
 
         toast.success("Conta solicitada com sucesso!", { duration: 2000 });
-        setTimeout(() => setSheetOpen(false), 5000);
+
+        // Fechar o sheet após 2 segundos
+        setTimeout(() => setSheetOpen(false), 2000);
       } else {
-        toast.error("Erro ao conectar ao servidor!");
+        toast.error("Conexão com o servidor perdida!");
       }
     } catch (error) {
       console.error("Erro ao solicitar conta:", error);
-      toast.error("Ocorreu um erro ao solicitar a conta");
+      toast.error("Erro ao solicitar conta");
     } finally {
       setLoading(false);
+
+      // Forçar atualização dos dados do localStorage
+      window.dispatchEvent(new Event("storage"));
     }
   };
 

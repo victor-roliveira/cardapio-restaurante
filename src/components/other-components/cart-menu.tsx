@@ -2,7 +2,6 @@
 import Image from "next/image";
 import iconCart from "../../app/assets/car.svg";
 import checkIcon from "../../app/assets/check-icon.svg";
-
 import { Button } from "../ui/button";
 import {
   Sheet,
@@ -17,43 +16,91 @@ import { useCart } from "@/contexts/cart-context";
 import { Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useSocket } from "@/contexts/socket-provider";
+import { Conta, Mesa } from "@/lib/types/pedidos";
 
 const CartMenu = () => {
-  const {
-    cart,
-    addToCart,
-    removeFromCart,
-    clearCart,
-    getTotalValue,
-    submitOrder,
-  } = useCart();
-  const [numeroMesa, setNumeroMesa] = useState<number | null>(null);
-  const [numeroConta, setNumeroConta] = useState<number | null>(null);
+  const { cart, addToCart, removeFromCart, getTotalValue, submitOrder } =
+    useCart();
+  //const [, setNumeroMesa] = useState<number | null>(null);
+  //const [, setNumeroConta] = useState<number | null>(null);
   const hasItems = cart.length > 0;
   const [adicionando, setAdicionando] = useState(false);
+  const socket = useSocket();
 
   const totalItems = cart.reduce((total, item) => {
     return total + item.quantidade;
   }, 0);
 
+  // components/CartMenu.tsx
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      // Forçar re-render se os dados do localStorage mudarem
+      const mesa = localStorage.getItem("mesaSelecionada");
+      const conta = localStorage.getItem("conta");
+      console.log("Dados atualizados:", { mesa, conta });
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   const handleOrder = async () => {
     setAdicionando(true);
 
-    const mesaSelecionada = localStorage.getItem("mesaSelecionada");
-    const contaSelecionada = localStorage.getItem("conta");
-
-    const mesa = mesaSelecionada ? JSON.parse(mesaSelecionada) : null;
-    const conta = contaSelecionada ? JSON.parse(contaSelecionada) : null;
-
-    if (mesa?.id && conta?.id) {
-      await submitOrder(mesa.id, conta.id);
-    } else {
-      toast.error("Mesa ou conta inválida!");
+    if (socket && !socket.connected) {
+      console.warn("Socket desconectado, tentando reconectar...");
+      socket.connect();
     }
 
-    setAdicionando(false);
+    try {
+      // Obter dados com verificação mais robusta
+      const mesaSelecionada = localStorage.getItem("mesaSelecionada");
+      const contaSelecionada = localStorage.getItem("conta");
+
+      if (!mesaSelecionada || !contaSelecionada) {
+        toast.error("Selecione uma mesa e conta primeiro!");
+        return;
+      }
+
+      const mesa = JSON.parse(mesaSelecionada) as Mesa;
+      const conta = JSON.parse(contaSelecionada) as Conta;
+
+      if (!mesa?.id || !conta?.id) {
+        toast.error("Dados inválidos da mesa/conta!");
+        return;
+      }
+
+      // Verificar se o carrinho não está vazio
+      if (cart.length === 0) {
+        toast.error("Adicione itens ao carrinho primeiro!");
+        return;
+      }
+
+      // Enviar pedido
+      await submitOrder(mesa.id, conta.id);
+
+      // Emitir evento via socket
+      if (socket) {
+        socket.emit("pedidoRealizado", { contaId: conta.id });
+      }
+
+      toast.success("Pedido enviado com sucesso!");
+
+      // Forçar atualização do localStorage
+      window.dispatchEvent(new Event("storage"));
+    } catch (error) {
+      console.error("Erro ao enviar pedido:", error);
+      toast.error("Falha ao enviar pedido");
+    } finally {
+      setAdicionando(false);
+    }
   };
-  
+
   return (
     <Sheet>
       <SheetTrigger asChild>

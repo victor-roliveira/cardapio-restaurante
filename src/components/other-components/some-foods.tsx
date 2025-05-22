@@ -10,8 +10,8 @@ const SomeFoods = () => {
     <section className="bg-slate-950 w-full">
       <div className="w-full h-[400px] bg-black text-white pt-20">
         <div className="flex flex-col items-center justify-center gap-5">
-          <Image src={logoRestaurante} alt="Logo do restaurante" />
-          {/*<h1 className="text-6xl">LOGO RESTAURANTE</h1>*/}
+          {/*<Image src={logoRestaurante} alt="Logo do restaurante" />*/}
+          <h1 className="text-6xl">LOGO RESTAURANTE</h1>
           <h2 className="text-2xl font-bold">
             Há mais de 10 anos oferecendo o melhor para você.
           </h2>

@@ -99,6 +99,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       clearCart();
       toast.success("Pedido enviado com sucesso!");
       socket.emit("pedidoCriado", response.data);
+
+      return response.data;
     } catch (error) {
       console.error(error);
       toast.error("Erro ao enviar pedido");
