@@ -9,7 +9,7 @@ export interface Mesa {
 export interface Pedido {
   id?: number;
   mesaId: number;
-  status: String;
+  status: string;
   contaId?: number;
   produtos: PedidoProduto[];
 }
@@ -25,6 +25,6 @@ export interface PedidoProduto {
 export interface Conta {
   id?: number;
   donoConta: string;
-  statusConta: String;
+  statusConta: string;
   pedidos: Pedido[];
 }

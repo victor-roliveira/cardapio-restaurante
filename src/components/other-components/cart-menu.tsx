@@ -14,10 +14,10 @@ import {
 
 import { useCart } from "@/contexts/cart-context";
 import { Minus, Plus } from "lucide-react";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { useSocket } from "@/contexts/socket-provider";
 import { Conta, Mesa } from "@/lib/types/pedidos";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const CartMenu = () => {
   const { cart, addToCart, removeFromCart, getTotalValue, submitOrder } =
@@ -128,7 +128,7 @@ const CartMenu = () => {
         </SheetHeader>
         <div className="mt-4 space-y-4 flex-1 overflow-y-auto max-h-[470px] border-b-2">
           {cart.map((item) => (
-            <div className="flex items-center gap-4 p-2 border-b">
+            <div key={item.id} className="flex items-center gap-4 p-2 border-b">
               <Image
                 src={item.produto.imagem}
                 alt={item.produto.nome}

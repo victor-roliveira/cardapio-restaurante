@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Kanit } from "next/font/google";
 import "./globals.css";
-import { CartProvider } from "@/contexts/cart-context";
 import { Toaster } from "@/components/ui/sonner";
 import { AppProviders } from "@/contexts/app-providers";
 

@@ -1,6 +1,3 @@
-import Image from "next/image";
-import logoRestaurante from "../../app/assets/logo-restaurante.png";
-
 import SomePizzas from "./some-pizzas";
 import SomeMasses from "./some-masses";
 import SomeDrinks from "./some-drinks";
